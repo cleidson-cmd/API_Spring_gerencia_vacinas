@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor //cria construtor com todos argumentos
 @NoArgsConstructor //cria construtor sem argumentos
@@ -18,7 +20,7 @@ public class Vacina {
     private String nome;
     private String fabricante;
     private String lote;
-    private String validade;
-    private double doses;
+    private Date validade;
+    private int doses;
     private String intervaloEntreDoses;
 }

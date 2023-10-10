@@ -1,7 +1,7 @@
 package br.com.gerenciarvacinas.gerenciar.controller;
 
 import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
-import br.com.gerenciarvacinas.gerenciar.service.VacinaServico;
+import br.com.gerenciarvacinas.gerenciar.service.VacinaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ import java.util.List;
 public class VacinaController {
 
     @Autowired
-    VacinaServico vacinaServico;
+    VacinaService vacinaService;
 
     @GetMapping
     public List<Vacina> obterTodos() {
-        return vacinaServico.obterTodos();
+        return vacinaService.obterTodos();
     }
 
     @GetMapping("/obter/{id}")
     public ResponseEntity<Vacina> obterVacinaPorId(@PathVariable int id) {
-        Vacina vacina = vacinaServico.selecionarVacinaPeloId(id);
+        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
         /*
             if (vacina.getId() == id) {
                 vacinaSelecionada = vacina;
@@ -38,25 +38,25 @@ public class VacinaController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Vacina> inserir(@Valid @RequestBody Vacina vacina) {
-        vacinaServico.inserir(vacina);
+        vacinaService.inserir(vacina);
         return ResponseEntity.created(null).body(vacina);
     }
 
     @PutMapping("/editar/{id}")
     public ResponseEntity<Vacina> atualizar(@RequestBody Vacina novosDadosVacina, @PathVariable int id) {
-        Vacina vacina = vacinaServico.selecionarVacinaPeloId(id);
+        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
 
         if (vacina == null) {
             return ResponseEntity.notFound().build();
         }
 
-        vacinaServico.atualizar(id, novosDadosVacina);
+        vacinaService.atualizar(id, novosDadosVacina);
         return ResponseEntity.ok().body(vacina);
     }
 
     @PatchMapping("/editar/dose/{id}")
-    public ResponseEntity<Vacina> atualizarDose(@RequestParam("dose") double dose, @PathVariable int id) {
-        Vacina vacina = vacinaServico.selecionarVacinaPeloId(id);
+    public ResponseEntity<Vacina> atualizarDose(@RequestParam("dose") int dose, @PathVariable int id) {
+        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
 
         if (vacina == null) {
             return ResponseEntity.notFound().build();
@@ -64,20 +64,20 @@ public class VacinaController {
 
         vacina.setDoses(dose);
 
-        vacinaServico.atualizar(id, vacina);
+        vacinaService.atualizar(id, vacina);
 
         return ResponseEntity.ok().body(vacina);
     }
 
     @DeleteMapping("/remover/{id}")
     public ResponseEntity<Vacina> remover(@PathVariable int id) {
-        Vacina vacina = vacinaServico.selecionarVacinaPeloId(id);
+        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
 
         if (vacina == null) {
             return ResponseEntity.notFound().build();
         }
 
-        vacinaServico.remove(id);
+        vacinaService.remove(id);
 
         return ResponseEntity.ok().body(null);
     }
