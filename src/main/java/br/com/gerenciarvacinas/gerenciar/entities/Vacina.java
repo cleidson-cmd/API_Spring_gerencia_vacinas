@@ -1,4 +1,4 @@
-package br.com.gerenciarvacinas.gerenciar.entidade;
+package br.com.gerenciarvacinas.gerenciar.entities;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

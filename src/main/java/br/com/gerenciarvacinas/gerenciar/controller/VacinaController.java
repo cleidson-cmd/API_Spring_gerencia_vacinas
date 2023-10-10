@@ -1,7 +1,7 @@
 package br.com.gerenciarvacinas.gerenciar.controller;
 
-import br.com.gerenciarvacinas.gerenciar.entidade.Vacina;
-import br.com.gerenciarvacinas.gerenciar.servico.VacinaServico;
+import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
+import br.com.gerenciarvacinas.gerenciar.service.VacinaServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

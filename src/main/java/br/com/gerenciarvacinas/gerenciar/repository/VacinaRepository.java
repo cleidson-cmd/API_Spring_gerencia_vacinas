@@ -1,7 +1,6 @@
-package br.com.gerenciarvacinas.gerenciar.repositorio;
+package br.com.gerenciarvacinas.gerenciar.repository;
 
-import br.com.gerenciarvacinas.gerenciar.entidade.Vacina;
-import com.mongodb.client.MongoDatabase;
+import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface VacinaRepository extends MongoRepository<Vacina, String> {

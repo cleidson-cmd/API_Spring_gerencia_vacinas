@@ -1,7 +1,7 @@
-package br.com.gerenciarvacinas.gerenciar.servico;
+package br.com.gerenciarvacinas.gerenciar.service;
 
-import br.com.gerenciarvacinas.gerenciar.entidade.Vacina;
-import br.com.gerenciarvacinas.gerenciar.repositorio.VacinaRepository;
+import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
+import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
