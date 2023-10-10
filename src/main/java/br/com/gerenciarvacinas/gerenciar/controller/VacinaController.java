@@ -37,7 +37,7 @@ public class VacinaController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Vacina> inserir(@Valid @RequestBody Vacina vacina) {
+    public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) {
         vacinaService.inserir(vacina);
         return ResponseEntity.created(null).body(vacina);
     }
