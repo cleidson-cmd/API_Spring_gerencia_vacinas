@@ -10,7 +10,7 @@ Java SDK 17
 
 VacinasSpringBoot
 
-Crie um banco de dados MongoDB com o nome de api-paramo-db
+Crie um banco de dados MongoDB com o nome de api-vacinas-db
 
 Rotas:
 
