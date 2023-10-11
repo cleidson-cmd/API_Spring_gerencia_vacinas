@@ -23,8 +23,8 @@ public class VacinaService {
         return vacina;
     }
 
-    public Vacina atualizar(int id, Vacina novosDadosDaVacina) {
-        Vacina vacina = selecionarVacinaPeloId(id);
+    public Vacina atualizar(int codigo, Vacina novosDadosDaVacina) {
+        Vacina vacina = selecionarVacinaPorCodigo(codigo);
 
         if (vacina != null) {
             BeanUtils.copyProperties(novosDadosDaVacina, vacina);
@@ -34,16 +34,16 @@ public class VacinaService {
         return vacina;
     }
 
-    public void remove(int id) {
-        Vacina vacina = selecionarVacinaPeloId(id);
+    public void remove(int codigo) {
+        Vacina vacina = selecionarVacinaPorCodigo(codigo);
 
         if (vacina != null) {
             vacinaRepository.delete(vacina);
         }
     }
 
-    public Vacina selecionarVacinaPeloId(int id) {
-        Vacina vacina = vacinaRepository.findById(id);
+    public Vacina selecionarVacinaPorCodigo(int codigo) {
+        Vacina vacina = vacinaRepository.findByCodigo(codigo);
 
         return vacina;
     }

@@ -22,8 +22,8 @@ public class VacinaController {
     }
 
     @GetMapping("/obter/{id}")
-    public ResponseEntity<Vacina> obterVacinaPorId(@PathVariable int id) {
-        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
+    public ResponseEntity<Vacina> obterVacinaPorId(@PathVariable int codigo) {
+        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(codigo);
         /*
             if (vacina.getId() == id) {
                 vacinaSelecionada = vacina;
@@ -42,21 +42,21 @@ public class VacinaController {
         return ResponseEntity.created(null).body(vacina);
     }
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<Vacina> atualizar(@RequestBody Vacina novosDadosVacina, @PathVariable int id) {
-        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
+    @PutMapping("/editar/{codigo}")
+    public ResponseEntity<Vacina> atualizar(@RequestBody Vacina novosDadosVacina, @PathVariable int codigo) {
+        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(codigo);
 
         if (vacina == null) {
             return ResponseEntity.notFound().build();
         }
 
-        vacinaService.atualizar(id, novosDadosVacina);
+        vacinaService.atualizar(codigo, novosDadosVacina);
         return ResponseEntity.ok().body(vacina);
     }
 
     @PatchMapping("/editar/dose/{id}")
     public ResponseEntity<Vacina> atualizarDose(@RequestParam("dose") int dose, @PathVariable int id) {
-        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
+        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(id);
 
         if (vacina == null) {
             return ResponseEntity.notFound().build();
@@ -71,7 +71,7 @@ public class VacinaController {
 
     @DeleteMapping("/remover/{id}")
     public ResponseEntity<Vacina> remover(@PathVariable int id) {
-        Vacina vacina = vacinaService.selecionarVacinaPeloId(id);
+        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(id);
 
         if (vacina == null) {
             return ResponseEntity.notFound().build();
