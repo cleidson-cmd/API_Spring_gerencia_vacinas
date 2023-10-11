@@ -15,6 +15,7 @@ Crie um banco de dados MongoDB com o nome de api-vacinas-db
 Rotas:
 
 localhost:8080
+
 localhost:8080/api/vacinas
 
 API REST para teste
