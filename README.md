@@ -20,17 +20,15 @@ localhost:8080/api/vacinas
 
 API REST para teste
 
-GET requisições para /api/vacinas retorna uma lista de usuários em formato JSON
+GET requisições para /api/vacinas retorna uma lista de vacinas em formato JSON
 
-GET requisições para /api/vacinas/obter/1 retorna o usuário com o ID 1
+GET requisições para /api/vacinas/obter/1 retorna a vacina com o ID 1
 
-POST requisições para /api/vacinas/cadastrar com um objeto Usuario JSON cria um novo usuário
+POST requisições para /api/vacinas/cadastrar com um objeto Vacina JSON cria um novo registro de vacina no banco de dados
 
-PUT requisições para /api/vacinas/editar/1 com um objeto Usuario JSON atualiza o usuário com ID 1
+PUT requisições para /api/vacinas/editar/1 com um objeto Vacina JSON atualiza a vacina com ID 1
 
-DELETE requisições para /api/remover/1 deleta o usuário com ID 1
-
-DELETE requisições para /api/usuario deleta todos os usuários
+DELETE requisições para /api/remover/1 deleta a vacina com ID 1
 
 
 
