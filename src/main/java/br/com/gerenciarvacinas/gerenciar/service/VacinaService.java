@@ -2,11 +2,11 @@ package br.com.gerenciarvacinas.gerenciar.service;
 
 import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VacinaService {
@@ -23,27 +23,33 @@ public class VacinaService {
         return vacina;
     }
 
-    public Vacina atualizar(int codigo, Vacina novosDadosDaVacina) {
-        Vacina vacina = selecionarVacinaPorCodigo(codigo);
+    public Vacina atualizar(String id, Vacina novosDadosDaVacina) {
+        Optional<Vacina> vacina = findById(id);
 
-        if (vacina != null) {
-            BeanUtils.copyProperties(novosDadosDaVacina, vacina);
-            vacinaRepository.save(vacina);
+        if (vacina.isPresent()) {
+            Vacina novaVacina = vacina.get();
+            novaVacina.setCodigo(novosDadosDaVacina.getCodigo());
+            novaVacina.setNome(novosDadosDaVacina.getNome());
+            novaVacina.setFabricante(novosDadosDaVacina.getFabricante());
+            novaVacina.setLote(novosDadosDaVacina.getLote());
+            novaVacina.setValidade(novosDadosDaVacina.getValidade());
+            novaVacina.setDoses(novosDadosDaVacina.getDoses());
+            novaVacina.setIntervaloEntreDoses(novosDadosDaVacina.getIntervaloEntreDoses());
+            vacinaRepository.save(novaVacina);
+            return novaVacina;
         }
+        return null;
 
-        return vacina;
     }
 
-    public void remove(int codigo) {
-        Vacina vacina = selecionarVacinaPorCodigo(codigo);
+    public void remove(String id) {
+        Optional<Vacina> vacina = findById(id);
 
-        if (vacina != null) {
-            vacinaRepository.delete(vacina);
-        }
+        vacina.ifPresent(value -> vacinaRepository.delete(value));
     }
 
-    public Vacina selecionarVacinaPorCodigo(int codigo) {
-        Vacina vacina = vacinaRepository.findByCodigo(codigo);
+    public Optional<Vacina> findById(String id) {
+        Optional<Vacina> vacina = vacinaRepository.findById(id);
 
         return vacina;
     }

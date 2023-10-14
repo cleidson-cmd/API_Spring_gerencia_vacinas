@@ -19,7 +19,7 @@ import java.util.Date;
 @Document(collection = "vacinas")
 public class Vacina {
     @Id
-    private ObjectId id;
+    private String id;
     @NotNull
     @Indexed(unique = true)
     private int codigo;

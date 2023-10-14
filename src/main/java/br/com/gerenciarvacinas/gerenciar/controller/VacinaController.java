@@ -3,11 +3,13 @@ package br.com.gerenciarvacinas.gerenciar.controller;
 import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
 import br.com.gerenciarvacinas.gerenciar.service.VacinaService;
 import jakarta.validation.Valid;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/vacinas")
@@ -22,18 +24,14 @@ public class VacinaController {
     }
 
     @GetMapping("/obter/{id}")
-    public ResponseEntity<Vacina> obterVacinaPorId(@PathVariable int codigo) {
-        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(codigo);
-        /*
-            if (vacina.getId() == id) {
-                vacinaSelecionada = vacina;
-            }
-        }*/
-        if (vacina == null) {
+    public ResponseEntity<Vacina> obterVacinaPorId(@PathVariable String id) {
+        Optional<Vacina> vacina = vacinaService.findById(id);
+
+        if (vacina.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().body(vacina);
+        return ResponseEntity.ok().body(vacina.get());
     }
 
     @PostMapping("/cadastrar")
@@ -42,38 +40,40 @@ public class VacinaController {
         return ResponseEntity.created(null).body(vacina);
     }
 
-    @PutMapping("/editar/{codigo}")
-    public ResponseEntity<Vacina> atualizar(@RequestBody Vacina novosDadosVacina, @PathVariable int codigo) {
-        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(codigo);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<Vacina> atualizar(@RequestBody Vacina novosDadosVacina, @PathVariable String id) {
+        Optional<Vacina> vacina = vacinaService.findById(id);
 
-        if (vacina == null) {
+        if (vacina.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        vacinaService.atualizar(codigo, novosDadosVacina);
-        return ResponseEntity.ok().body(vacina);
+        Vacina responseVacina = vacinaService.atualizar(id, novosDadosVacina);
+        return ResponseEntity.ok().body(responseVacina);
     }
 
     @PatchMapping("/editar/dose/{id}")
-    public ResponseEntity<Vacina> atualizarDose(@RequestParam("dose") int dose, @PathVariable int id) {
-        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(id);
+    public ResponseEntity<Vacina> atualizarDose(@RequestParam("dose") int dose, @PathVariable String id) {
+        Optional<Vacina> vacina = vacinaService.findById(id);
 
-        if (vacina == null) {
+        if (vacina.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        vacina.setDoses(dose);
+        Vacina novosDadosDaVacina = vacina.get();
 
-        vacinaService.atualizar(id, vacina);
+        novosDadosDaVacina.setDoses(dose);
 
-        return ResponseEntity.ok().body(vacina);
+        vacinaService.atualizar(id, novosDadosDaVacina);
+
+        return ResponseEntity.ok().body(novosDadosDaVacina);
     }
 
     @DeleteMapping("/remover/{id}")
-    public ResponseEntity<Vacina> remover(@PathVariable int id) {
-        Vacina vacina = vacinaService.selecionarVacinaPorCodigo(id);
+    public ResponseEntity<Vacina> remover(@PathVariable String id) {
+        Optional<Vacina> vacina = vacinaService.findById(id);
 
-        if (vacina == null) {
+        if (vacina.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
