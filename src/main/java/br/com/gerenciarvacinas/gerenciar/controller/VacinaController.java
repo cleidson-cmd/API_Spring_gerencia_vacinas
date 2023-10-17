@@ -23,7 +23,7 @@ public class VacinaController {
     @Autowired
     VacinaService vacinaService;
 
-    // Método de Valodação e Exceções
+    // Método de Valdação e Exceções
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
