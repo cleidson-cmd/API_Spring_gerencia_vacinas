@@ -2,9 +2,11 @@ package br.com.gerenciarvacinas.gerenciar.service;
 
 import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
+import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +53,9 @@ public class VacinaService {
     public Optional<Vacina> findById(String id) {
         Optional<Vacina> vacina = vacinaRepository.findById(id);
 
-        return vacina;
+        Vacina entity = vacina.orElseThrow(() -> new EntityNotFoundException("Registro Não Lacalizado!"));
+
+        return Optional.ofNullable(entity);
     }
 
 }
