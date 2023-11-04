@@ -52,9 +52,12 @@ public class VacinaController {
         return ResponseEntity.ok().body(vacina.get());
     }
 
+
     @PostMapping("/cadastrar")
     public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) {
-        vacinaService.inserir(vacina);
+        if (vacinaService.inserir(vacina) == null) {
+            return ResponseEntity.badRequest().body(vacina);
+        }
         return ResponseEntity.created(null).body(vacina);
     }
 

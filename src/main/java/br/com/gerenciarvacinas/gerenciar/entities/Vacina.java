@@ -36,5 +36,5 @@ public class Vacina {
     @NotNull
     @Min(value = 1, message = "Informe um número maior que 0!")
     private int doses; // Número de doses
-    private String intervaloEntreDoses;// Intervalo mínimo entre doses em dias
+    private int intervaloEntreDoses = 0;// Intervalo mínimo entre doses em dias
 }

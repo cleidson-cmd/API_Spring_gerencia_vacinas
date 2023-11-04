@@ -20,8 +20,19 @@ public class VacinaService {
         return vacinaRepository.findAll();
     }
 
+
+    //AQUI É A REGRA PARA CADASTRAR A VACINA. QUAL VALIDAÇÃO PARA CADASTRAR?
     public Vacina inserir(Vacina vacina) {
-        vacinaRepository.insert(vacina);
+        //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
+        if (vacina.getDoses() > 1){
+            if (vacina.getIntervaloEntreDoses() < 1){
+                return null;//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+            }else{
+                vacinaRepository.insert(vacina);
+            }
+        }else{
+            vacinaRepository.insert(vacina);
+        }
         return vacina;
     }
 
