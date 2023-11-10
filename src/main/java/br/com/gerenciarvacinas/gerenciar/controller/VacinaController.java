@@ -1,6 +1,6 @@
 package br.com.gerenciarvacinas.gerenciar.controller;
 
-import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
+import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.service.VacinaService;
 import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
@@ -23,19 +23,6 @@ public class VacinaController {
     @Autowired
     VacinaService vacinaService;
 
-    // Método de Valdação e Exceções
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
-
     @GetMapping
     public List<Vacina> obterTodos() {
         return vacinaService.obterTodos();
@@ -51,7 +38,6 @@ public class VacinaController {
 
         return ResponseEntity.ok().body(vacina.get());
     }
-
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) {
@@ -102,5 +88,24 @@ public class VacinaController {
 
         return ResponseEntity.ok().body(null);
     }
+
+    @GetMapping("/obter/fabricante/{fabricante}")
+    public List<Vacina> listarPorFabricante(@PathVariable String fabricante) {
+        return vacinaService.listarVacinasPorFabricante(fabricante);
+    }
+
+    /*
+     * @GetMapping("/fabricante/estado/{fabricante}")
+     * public List<Vacina> listarPorFabricanteEEstado(@PathVariable String
+     * fabricante,
+     * 
+     * @RequestParam(required = false) String estado) {
+     * if (estado != null) {
+     * return vacinaService.listarVacinasPorFabricanteEEstado(fabricante, estado);
+     * } else {
+     * return vacinaService.listarVacinasPorFabricante(fabricante);
+     * }
+     * }
+     */
 
 }

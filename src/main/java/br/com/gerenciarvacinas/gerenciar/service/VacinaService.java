@@ -1,6 +1,6 @@
 package br.com.gerenciarvacinas.gerenciar.service;
 
-import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
+import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +20,17 @@ public class VacinaService {
         return vacinaRepository.findAll();
     }
 
-
-    //AQUI É A REGRA PARA CADASTRAR A VACINA. QUAL VALIDAÇÃO PARA CADASTRAR?
+    // AQUI É A REGRA PARA CADASTRAR A VACINA. QUAL VALIDAÇÃO PARA CADASTRAR?
     public Vacina inserir(Vacina vacina) {
-        //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
-        if (vacina.getDoses() > 1){
-            if (vacina.getIntervaloEntreDoses() < 1){
-                return null;//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
-            }else{
+        // caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
+        if (vacina.getDoses() > 1) {
+            if (vacina.getIntervaloEntreDoses() < 1) {
+                return null;// aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze
+                            // unica
+            } else {
                 vacinaRepository.insert(vacina);
             }
-        }else{
+        } else {
             vacinaRepository.insert(vacina);
         }
         return vacina;
@@ -68,5 +68,16 @@ public class VacinaService {
 
         return Optional.ofNullable(entity);
     }
+
+    public List<Vacina> listarVacinasPorFabricante(String fabricante) {
+        return vacinaRepository.findByFabricante(fabricante);
+    }
+
+    /*
+     * public List<Vacina> listarVacinasPorFabricanteEEstado(String fabricante,
+     * String estado) {
+     * return vacinaRepository.findByFabricanteAndEstado(fabricante, estado);
+     * }
+     */
 
 }
