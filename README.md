@@ -43,8 +43,8 @@ Exemplo de entrada JSON esperada:
         "lote": "001",
         "validade": "2025-11-10T00:00:00.000+00:00",
         "doses": 3,
-        "intervaloEntreDoses": 5
-    }
+        "intervaloEntreDoses": 5  }
+        
 (OBS Intervalo entre doses em dias )
 
 PUT requisições para /api/vacinas/editar/1 com um objeto Vacina JSON atualiza a vacina com ID 1
