@@ -45,10 +45,6 @@ Exemplo de entrada JSON esperada:
     }
 (OBS Intervalo entre doses em dias )
 
-        "intervaloEntreDoses": 5  
-    }
-    (OBS: Intervalo entre doses em dias)
-
 PUT requisições para /api/vacinas/editar/1 com um objeto Vacina JSON atualiza a vacina com ID 1
 
 DELETE requisições para /api/remover/1 deleta a vacina com ID 1
