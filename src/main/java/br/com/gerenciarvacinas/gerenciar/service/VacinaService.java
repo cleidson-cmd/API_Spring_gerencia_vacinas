@@ -4,11 +4,11 @@ import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.parser.Entity;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class VacinaService {
@@ -22,18 +22,26 @@ public class VacinaService {
 
 
     //AQUI É A REGRA PARA CADASTRAR A VACINA. QUAL VALIDAÇÃO PARA CADASTRAR?
-    public Vacina inserir(Vacina vacina) {
+    public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) {
         //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
-        if (vacina.getDoses() > 1){
-            if (vacina.getIntervaloEntreDoses() < 1){
-                return null;//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
-            }else{
+        Map<String, Vacina> response = new HashMap();
+        Date dataAtual = new Date();
+        if (vacina.getValidade().after(dataAtual) || vacina.getValidade().equals(dataAtual)) {
+            if (vacina.getDoses() > 1) {
+                if (vacina.getIntervaloEntreDoses() < 1) {
+                    response.put("Vacina com mais de 1 doze é obrigatório o intervalo entre doses maior que 1!", (Vacina) vacina);
+                    return ResponseEntity.badRequest().body(response);//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+                } else {
+                    vacinaRepository.insert(vacina);
+                }
+            } else {
                 vacinaRepository.insert(vacina);
             }
-        }else{
-            vacinaRepository.insert(vacina);
+            response.put("Gravado com sucesso!", (Vacina) vacina);
+            return ResponseEntity.created(null).body(response);
         }
-        return vacina;
+        response.put("Vacina Com validade vencida.", (Vacina) vacina);
+        return ResponseEntity.badRequest().body(response);
     }
 
     public Vacina atualizar(String id, Vacina novosDadosDaVacina) {

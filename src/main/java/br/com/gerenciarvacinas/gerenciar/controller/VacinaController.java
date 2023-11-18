@@ -54,11 +54,8 @@ public class VacinaController {
 
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) {
-        if (vacinaService.inserir(vacina) == null) {
-            return ResponseEntity.badRequest().body(vacina);
-        }
-        return ResponseEntity.created(null).body(vacina);
+    public ResponseEntity<Map<String, Vacina>> inserir(@RequestBody @Valid Vacina vacina) {
+        return vacinaService.inserir(vacina);
     }
 
     @PutMapping("/editar/{id}")
