@@ -10,9 +10,11 @@ Java SDK 17
 
 API 1 Gerenciar Vacinas
 
+
 .Este repositório contém um projeto API REST simples, construído com Java Spring & MongoDB. O objetivo deste repositório é gerenciar Vacinas através de CRUD Java.
 
 Este projeto foi desenvolvido durante a disciplina de Programação para Web II do curso de Bacharelado em Sitemas de Informação da UNIME(União Metropolitana de Educação e Cultura) no 2º semestre de 2023.
+
 
 VacinasSpringBoot
 
@@ -31,6 +33,7 @@ GET requisições para /api/vacinas retorna uma lista de vacinas em formato JSON
 GET requisições para /api/vacinas/obter/1 retorna a vacina com o ID 1
 
 POST requisições para /api/vacinas/cadastrar com um objeto Vacina JSON cria um novo registro de vacina no banco de dados
+
 Exemplo de entrada JSON esperada:        
      {  "codigo": 20288,
         "nome": "IMUNIZESE",
@@ -38,9 +41,14 @@ Exemplo de entrada JSON esperada:
         "lote": "001",
         "validade": "2025-11-10T00:00:00.000+00:00",
         "doses": 3,
+        "intervaloEntreDoses": 5
+    }
+(OBS Intervalo entre doses em dias )
+
         "intervaloEntreDoses": 5  
     }
     (OBS: Intervalo entre doses em dias)
+
 PUT requisições para /api/vacinas/editar/1 com um objeto Vacina JSON atualiza a vacina com ID 1
 
 DELETE requisições para /api/remover/1 deleta a vacina com ID 1
