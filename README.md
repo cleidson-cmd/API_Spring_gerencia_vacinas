@@ -35,8 +35,10 @@ GET requisições para /api/vacinas/obter/1 retorna a vacina com o ID 1
 POST requisições para /api/vacinas/cadastrar com um objeto Vacina JSON cria um novo registro de vacina no banco de dados
 
 Exemplo de entrada JSON esperada:        
-     {  "codigo": 20288,
-        "nome": "IMUNIZESE",
+
+     {  
+       "codigo": 20288,
+       "nome": "IMUNIZESE",
         "fabricante": "UNIDEV",
         "lote": "001",
         "validade": "2025-11-10T00:00:00.000+00:00",
