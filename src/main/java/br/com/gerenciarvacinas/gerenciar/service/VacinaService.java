@@ -1,14 +1,16 @@
 package br.com.gerenciarvacinas.gerenciar.service;
 
-import br.com.gerenciarvacinas.gerenciar.entities.Vacina;
+import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.parser.Entity;
 import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class VacinaService {
@@ -19,6 +21,7 @@ public class VacinaService {
     public List<Vacina> obterTodos() {
         return vacinaRepository.findAll();
     }
+
 
 
     //AQUI É A REGRA PARA CADASTRAR A VACINA. QUAL VALIDAÇÃO PARA CADASTRAR?
@@ -39,6 +42,7 @@ public class VacinaService {
             }
             response.put("Gravado com sucesso!", (Vacina) vacina);
             return ResponseEntity.created(null).body(response);
+
         }
         response.put("Vacina Com validade vencida.", (Vacina) vacina);
         return ResponseEntity.badRequest().body(response);
@@ -76,5 +80,16 @@ public class VacinaService {
 
         return Optional.ofNullable(entity);
     }
+
+    public List<Vacina> listarVacinasPorFabricante(String fabricante) {
+        return vacinaRepository.findByFabricante(fabricante);
+    }
+
+    /*
+     * public List<Vacina> listarVacinasPorFabricanteEEstado(String fabricante,
+     * String estado) {
+     * return vacinaRepository.findByFabricanteAndEstado(fabricante, estado);
+     * }
+     */
 
 }
