@@ -22,14 +22,11 @@ public class VacinaService {
         return vacinaRepository.findAll();
     }
 
-
-
-    //AQUI É A REGRA PARA CADASTRAR A VACINA. QUAL VALIDAÇÃO PARA CADASTRAR?
     public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) {
         //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
         Map<String, Vacina> response = new HashMap();
         Date dataAtual = new Date();
-        if (vacina.getValidade().after(dataAtual) || vacina.getValidade().equals(dataAtual)) {
+        if (vacina.getValidade().after(dataAtual)) {
             if (vacina.getDoses() > 1) {
                 if (vacina.getIntervaloEntreDoses() < 1) {
                     response.put("Vacina com mais de 1 doze é obrigatório o intervalo entre doses maior que 1!", (Vacina) vacina);

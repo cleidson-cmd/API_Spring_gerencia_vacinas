@@ -14,7 +14,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/vacinas")
 public class VacinaController {
-
     @Autowired
     VacinaService vacinaService;
 
@@ -30,12 +29,11 @@ public class VacinaController {
         if (vacina.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok().body(vacina.get());
     }
 
-    @PostMapping("/cadastrar")
-    public ResponseEntity<Map<String, Vacina>> inserir(@RequestBody @Valid Vacina vacina) {
+    @PostMapping("/cadastrar")//@RequestBody @Valid
+    public ResponseEntity<Map<String, Vacina>> inserir(@RequestBody Vacina vacina) {
         return vacinaService.inserir(vacina);
     }
 
