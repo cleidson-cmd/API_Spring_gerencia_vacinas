@@ -23,7 +23,6 @@ class ApplicationTests {
 		// Arrange
 		Vacina vacina = new Vacina();
 		vacina.setNome("teste");
-		vacina.setCodigo(4);
 		vacina.setLote("45");
 		vacina.setDoses(4);
 		vacina.setValidade(new Date(2023));
@@ -32,7 +31,6 @@ class ApplicationTests {
 		vacinas.add(vacina);
 
 		vacina.setNome("teste2");
-		vacina.setCodigo(4);
 		vacina.setLote("45");
 		vacina.setDoses(4);
 		vacina.setValidade(new Date(2023));

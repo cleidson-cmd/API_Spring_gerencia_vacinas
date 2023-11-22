@@ -48,7 +48,6 @@ public class VacinaService {
 
         if (vacina.isPresent()) {
             Vacina novaVacina = vacina.get();
-            novaVacina.setCodigo(novosDadosDaVacina.getCodigo());
             novaVacina.setNome(novosDadosDaVacina.getNome());
             novaVacina.setFabricante(novosDadosDaVacina.getFabricante());
             novaVacina.setLote(novosDadosDaVacina.getLote());
