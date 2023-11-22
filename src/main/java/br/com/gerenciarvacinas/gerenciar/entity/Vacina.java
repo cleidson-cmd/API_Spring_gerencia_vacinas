@@ -35,7 +35,6 @@ public class Vacina {
 
     @NotNull
     @Min(value = 1, message = "Informe um número maior que 0!")
-    @Indexed(unique = true)
     private String lote;
 
     @NotNull
@@ -43,9 +42,9 @@ public class Vacina {
     private Date validade;
 
     @NotNull
-    @Min(value = 1, message = "Informe um número maior que 0!")
+    @Min(value = 1, message = "Informe um número maior que 0 !")
     private int doses; // Número de doses
 
     @Min(value = 0, message = "Informe um número positivo!")
-    private int intervaloEntreDoses = 0;// Intervalo mínimo entre doses em dias
+    private int intervaloEntreDoses = 0; // Intervalo mínimo entre doses em dias
 }
