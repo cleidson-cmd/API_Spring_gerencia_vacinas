@@ -2,13 +2,12 @@ package br.com.gerenciarvacinas.gerenciar.controller;
 
 import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.service.VacinaService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -32,9 +31,12 @@ public class VacinaController {
         return ResponseEntity.ok().body(vacina.get());
     }
 
-    @PostMapping("/cadastrar")//@RequestBody @Valid
-    public ResponseEntity<Map<String, Vacina>> inserir(@RequestBody Vacina vacina) {
-        return vacinaService.inserir(vacina);
+    @PostMapping("/cadastrar")
+    public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) {
+        if (vacinaService.inserir(vacina) == null) {
+            return ResponseEntity.badRequest().body(vacina);
+        }
+        return ResponseEntity.created(null).body(vacina);
     }
 
     @PutMapping("/editar/{id}")
@@ -83,19 +85,5 @@ public class VacinaController {
     public List<Vacina> listarPorFabricante(@PathVariable String fabricante) {
         return vacinaService.listarVacinasPorFabricante(fabricante);
     }
-
-    /*
-     * @GetMapping("/fabricante/estado/{fabricante}")
-     * public List<Vacina> listarPorFabricanteEEstado(@PathVariable String
-     * fabricante,
-     * 
-     * @RequestParam(required = false) String estado) {
-     * if (estado != null) {
-     * return vacinaService.listarVacinasPorFabricanteEEstado(fabricante, estado);
-     * } else {
-     * return vacinaService.listarVacinasPorFabricante(fabricante);
-     * }
-     * }
-     */
 
 }

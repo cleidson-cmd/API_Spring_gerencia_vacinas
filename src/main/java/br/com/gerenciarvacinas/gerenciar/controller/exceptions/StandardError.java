@@ -1,16 +1,26 @@
 package br.com.gerenciarvacinas.gerenciar.controller.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 import java.time.Instant;
 
 public class StandardError {
-
     private Instant timestamp;
     private Integer status;
-    private String error;
+    private static String error;
     private String message;
     private String path;
 
     public StandardError() {
+    }
+
+    public StandardError(HttpStatus httpStatus, String message) {
+    }
+
+    public StandardError(HttpStatus httpStatus, String localizedMessage, String errorOccurred) {
+    }
+
+    public StandardError(String message, String description) {
     }
 
     public Instant getTimestamp() {
