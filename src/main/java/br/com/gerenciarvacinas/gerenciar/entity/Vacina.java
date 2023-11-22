@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Future;
@@ -22,10 +21,6 @@ import java.util.Date;
 public class Vacina {
     @Id
     private String id;
-
-    @NotNull
-    @Indexed(unique = true)
-    private int codigo;
 
     @NotBlank(message = "O nome da vacina não foi informado!")
     private String nome;
