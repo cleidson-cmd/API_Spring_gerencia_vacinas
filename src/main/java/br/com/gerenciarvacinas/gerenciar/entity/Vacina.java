@@ -33,12 +33,12 @@ public class Vacina {
     @NotBlank(message = "O nome do fabricante não foi informado!")
     private String fabricante;
 
-    @NotNull
+    @NotBlank(message = "O lote da vacina não foi informado!")
     @Min(value = 1, message = "Informe um número maior que 0!")
     private String lote;
 
     @NotNull
-    @Future(message = "A data de validade deve ser futura!")
+    @Future(message = "A data de validade deve ser superior a data atual!")
     private Date validade;
 
     @NotNull

@@ -3,9 +3,11 @@ package br.com.gerenciarvacinas.gerenciar.service;
 import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
+import com.mongodb.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 
 import java.util.List;
@@ -29,20 +31,16 @@ public class VacinaService {
         if (vacina.getValidade().after(dataAtual)) {
             if (vacina.getDoses() > 1) {
                 if (vacina.getIntervaloEntreDoses() < 1) {
-                    response.put("Vacina com mais de 1 doze é obrigatório o intervalo entre doses maior que 1!", (Vacina) vacina);
-                    return ResponseEntity.badRequest().body(response);//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+                    return ResponseEntity.unprocessableEntity().body(null);//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
                 } else {
                     vacinaRepository.insert(vacina);
                 }
             } else {
                 vacinaRepository.insert(vacina);
             }
-            response.put("Gravado com sucesso!", (Vacina) vacina);
             return ResponseEntity.created(null).body(response);
-
         }
-        response.put("Vacina Com validade vencida.", (Vacina) vacina);
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.unprocessableEntity().body(response);
     }
 
     public Vacina atualizar(String id, Vacina novosDadosDaVacina) {
@@ -73,20 +71,9 @@ public class VacinaService {
     public Optional<Vacina> findById(String id) {
         Optional<Vacina> vacina = vacinaRepository.findById(id);
 
-        Vacina entity = vacina.orElseThrow(() -> new EntityNotFoundException("Registro Não Lacalizado!"));
+        Vacina entity = vacina.orElseThrow(() -> new EntityNotFoundException("Registro Não Localizado na Base de Dados!"));
 
         return Optional.ofNullable(entity);
     }
-
-    public List<Vacina> listarVacinasPorFabricante(String fabricante) {
-        return vacinaRepository.findByFabricante(fabricante);
-    }
-
-    /*
-     * public List<Vacina> listarVacinasPorFabricanteEEstado(String fabricante,
-     * String estado) {
-     * return vacinaRepository.findByFabricanteAndEstado(fabricante, estado);
-     * }
-     */
 
 }

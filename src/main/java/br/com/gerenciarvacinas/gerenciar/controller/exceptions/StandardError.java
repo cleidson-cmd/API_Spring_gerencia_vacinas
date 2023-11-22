@@ -5,16 +5,16 @@ import org.springframework.http.HttpStatus;
 import java.time.Instant;
 
 public class StandardError {
-    private Instant timestamp;
+    private Instant dataHora;
     private Integer status;
     private static String error;
-    private String message;
+    private String mensagem;
     private String path;
 
     public StandardError() {
     }
 
-    public StandardError(HttpStatus httpStatus, String message) {
+    public StandardError(HttpStatus httpStatus, String mensagem) {
     }
 
     public StandardError(HttpStatus httpStatus, String localizedMessage, String errorOccurred) {
@@ -23,12 +23,12 @@ public class StandardError {
     public StandardError(String message, String description) {
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
+    public Instant getDataHora() {
+        return dataHora;
     }
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
+    public void setDataHora(Instant dataHora) {
+        this.dataHora = dataHora;
     }
 
     public Integer getStatus() {
@@ -47,12 +47,12 @@ public class StandardError {
         this.error = error;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 
     public String getPath() {

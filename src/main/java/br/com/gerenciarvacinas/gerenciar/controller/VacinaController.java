@@ -21,7 +21,7 @@ public class VacinaController {
         return vacinaService.obterTodos();
     }
 
-    @GetMapping("/obter/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Vacina> obterVacinaPorId(@PathVariable String id) {
         Optional<Vacina> vacina = vacinaService.findById(id);
 
@@ -31,16 +31,16 @@ public class VacinaController {
         return ResponseEntity.ok().body(vacina.get());
     }
 
-    @PostMapping("/cadastrar")
-    public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) {
+    @PostMapping()
+    public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) throws Exception {
         if (vacinaService.inserir(vacina) == null) {
             return ResponseEntity.badRequest().body(vacina);
         }
         return ResponseEntity.created(null).body(vacina);
     }
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<Vacina> atualizar(@RequestBody Vacina novosDadosVacina, @PathVariable String id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Vacina> atualizar(@RequestBody @Valid Vacina novosDadosVacina, @PathVariable String id) {
         Optional<Vacina> vacina = vacinaService.findById(id);
 
         if (vacina.isEmpty()) {
@@ -68,7 +68,7 @@ public class VacinaController {
         return ResponseEntity.ok().body(novosDadosDaVacina);
     }
 
-    @DeleteMapping("/remover/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Vacina> remover(@PathVariable String id) {
         Optional<Vacina> vacina = vacinaService.findById(id);
 
@@ -79,11 +79,6 @@ public class VacinaController {
         vacinaService.remove(id);
 
         return ResponseEntity.ok().body(null);
-    }
-
-    @GetMapping("/obter/fabricante/{fabricante}")
-    public List<Vacina> listarPorFabricante(@PathVariable String fabricante) {
-        return vacinaService.listarVacinasPorFabricante(fabricante);
     }
 
 }
