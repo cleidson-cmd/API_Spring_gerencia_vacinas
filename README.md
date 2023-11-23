@@ -1,88 +1,85 @@
-#identificações: ApiI: gerenciar Vacinas; ApiII: gerenciar Pacientes; ApiIII: gerenciar Registro de vacinação;
-
-#configurações: Project: Maven; Laguage: Java; Spring Boot: versão 3.1.4; Packaging: Jar;
-
-#Dependencies: Spring Web; Lombok; Validation;
-
-Java SDK 17
-
-#OBS: em casos de erros pode remover a pasta (.idea) no projeto fechando a IDE(InteliJ) e abrindo novamente para recriar.
-
-VacinasSpringBoot
-
-Crie um banco de dados MongoDB com o nome de api-vacinas-db
-
-Rotas:
-
-localhost:8080
-
-localhost:8080/api/vacinas
-
-API REST para teste
-
-GET requisições para /api/vacinas retorna uma lista de vacinas em formato JSON
-
-GET requisições para /api/vacinas/obter/1 retorna a vacina com o ID 1
-
-POST requisições para /api/vacinas/cadastrar com um objeto Vacina JSON cria um novo registro de vacina no banco de dados
-
-PUT requisições para /api/vacinas/editar/1 com um objeto Vacina JSON atualiza a vacina com ID 1
-
-DELETE requisições para /api/remover/1 deleta a vacina com ID 1
-
-#identificações: ApiI: gerenciar Vacinas; ApiII: gerenciar Pacientes; ApiIII: gerenciar Registro de vacinação;
-
-#configurações: Project: Maven; Laguage: Java; Spring Boot: versão 3.1.4; Packaging: Jar;
-
-#Dependencies: Spring Web; Lombok; Validation;
-
-Java SDK 17
-
-#OBS: em casos de erros pode remover a pasta (.idea) no projeto fechando a IDE(InteliJ) e abrindo novamente para recriar.
+# API1 - Gerenciar Vacinas
 
 API 1 Gerenciar Vacinas
 
+Este repositório contém um projeto API REST simples, construído com Java Spring & MongoDB.
+O objetivo deste repositório é gerenciar o registro de paciente através de CRUD Java
 
-.Este repositório contém um projeto API REST simples, construído com Java Spring & MongoDB. O objetivo deste repositório é gerenciar Vacinas através de CRUD Java.
+Este projeto foi desenvolvido durante a disciplina de Programação para Web II
+do curso de Bacharelado em Sitemas de Informação da UNIME(União Metropolitana de Educação e Cultura)
+no 2º semestre de 2023.
 
-Este projeto foi desenvolvido durante a disciplina de Programação para Web II do curso de Bacharelado em Sitemas de Informação da UNIME(União Metropolitana de Educação e Cultura) no 2º semestre de 2023.
+API 1 deve gerenciar Vacinas, sendo que uma vacina deve ter:
 
+• Fabricante
+• Lote
+• Data de Validade
+• Número de doses
+• Intervalo mínimo entre doses em dias
 
-VacinasSpringBoot
+## Índice de Conteúdo
 
-Crie um banco de dados MongoDB com o nome de api-vacinas-db
+- [Instalação](#instalação)
+- [Como Usar](#como-usar)
+- [API Endpoints](#api-endpoints)
+- [Base de Dados](#base-de-dados)
 
-Rotas:
+## Instalação
 
-localhost:8080
+1. Clone o repositório:
 
-localhost:8080/api/vacinas
+```bash
+$ git clone https://github.com/cleidson-cmd/API_Spring_gerencia_vacinas.git
+```
 
-API REST para teste
+2. Instale as dependências com o Maven
 
-GET requisições para /api/vacinas retorna uma lista de vacinas em formato JSON
+## Como Usar
 
-GET requisições para /api/vacinas/obter/1 retorna a vacina com o ID 1
+1. Inicie o aplicativo com Maven
+2. A API estará acessível em http://localhost:8080
 
-POST requisições para /api/vacinas/cadastrar com um objeto Vacina JSON cria um novo registro de vacina no banco de dados
+## API Endpoints
 
-Exemplo de entrada JSON esperada:        
+A API fornece os seguintes endpoints:
 
-     {  
-       "codigo": 20288,
-       "nome": "IMUNIZESE",
-        "fabricante": "UNIDEV",
-        "lote": "001",
-        "validade": "2025-11-10T00:00:00.000+00:00",
-        "doses": 3,
-        "intervaloEntreDoses": 5  }
-        
-(OBS Intervalo entre doses em dias )
+```markdown
+GET /api/vacinas - Listar todos os vacinas.
 
-PUT requisições para /api/vacinas/editar/1 com um objeto Vacina JSON atualiza a vacina com ID 1
+POST /api/pacientes - cadastra uma vacina. (ATENNÇÃO! Se a vacina não for dose única, o intervaloEntreDoses deve ser
+maior que 0)
+Exemplo do corpo:
+{
+"nome": "VACINA",
+"fabricante": "PARAMO",
+"lote": "001",
+"validade": "2025-12-31",
+"doses": 1,
+"intervaloEntreDoses": 0
+}
 
-DELETE requisições para /api/remover/1 deleta a vacina com ID 1
+PUT /api/pacientes/{id} - editar uma vacina pelo id
+{
+"nome": "VACINA",
+"fabricante": "PARAMO",
+"lote": "001",
+"validade": "2025-12-31",
+"doses": 1,
+"intervaloEntreDoses": 0
+}
 
+DELETE /api/vacinas/{id} - remover pelo id do paciente
 
+```
 
+## Base de Dados
+
+O projeto usa o MongoDB como banco de dados.
+
+Para instalar o MongoDB localmente [clique aqui](https://www.mongodb.com/try/download/community).
+
+OU
+
+Experimente um cluster gratuito e altamente disponível de 512
+MB. [clique aqui](https://www.mongodb.com/cloud/atlas/register).
 

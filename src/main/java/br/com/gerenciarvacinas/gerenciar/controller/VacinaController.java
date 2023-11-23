@@ -51,23 +51,6 @@ public class VacinaController {
         return ResponseEntity.ok().body(responseVacina);
     }
 
-    @PatchMapping("/editar/dose/{id}")
-    public ResponseEntity<Vacina> atualizarDose(@RequestParam("dose") int dose, @PathVariable String id) {
-        Optional<Vacina> vacina = vacinaService.findById(id);
-
-        if (vacina.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Vacina novosDadosDaVacina = vacina.get();
-
-        novosDadosDaVacina.setDoses(dose);
-
-        vacinaService.atualizar(id, novosDadosDaVacina);
-
-        return ResponseEntity.ok().body(novosDadosDaVacina);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Vacina> remover(@PathVariable String id) {
         Optional<Vacina> vacina = vacinaService.findById(id);
