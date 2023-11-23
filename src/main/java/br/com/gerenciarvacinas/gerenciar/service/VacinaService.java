@@ -3,6 +3,7 @@ package br.com.gerenciarvacinas.gerenciar.service;
 import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
+import br.com.gerenciarvacinas.gerenciar.service.exceptions.IntervaloEntreDosesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class VacinaService {
         if (vacina.getValidade().after(dataAtual)) {
             if (vacina.getDoses() > 1) {
                 if (vacina.getIntervaloEntreDoses() < 1) {
-                    throw new Exception("Atenção! Intervalo entre dose é obrigatório!.");//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+                    throw new IntervaloEntreDosesException("ATENÇÃO!: Intervalo entre doses obrigatório para vacinas que não sejam de dose única");//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
                 } else {
                     vacinaRepository.insert(vacina);
                 }

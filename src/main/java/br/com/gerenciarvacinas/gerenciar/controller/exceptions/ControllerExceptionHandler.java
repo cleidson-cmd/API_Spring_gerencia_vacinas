@@ -72,7 +72,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
         err.setStatus(HttpStatus.NOT_FOUND.value());
-        err.setError(e.toString());
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
@@ -84,7 +83,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
         err.setStatus(HttpStatus.BAD_REQUEST.value());
-        err.setError("NullPointerException!");
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
@@ -97,7 +95,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
         err.setStatus(HttpStatus.BAD_REQUEST.value());
-        err.setError("IllegalArgumentException!");
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
@@ -139,8 +136,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
-        err.setStatus(HttpStatus.CONFLICT.value());
-        err.setError("MethodArgumentTypeMismatchException!");
+        err.setStatus(HttpStatus.CONFLICT.value());;
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
@@ -153,22 +149,31 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
         err.setStatus(HttpStatus.CONFLICT.value());
-        err.setError("Chave duplicada encontrada!");
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     @ExceptionHandler(MongoWriteException.class)
-    public ResponseEntity<StandardError> DuplicateKeyException(MongoWriteException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> MongoWriteException(MongoWriteException e, HttpServletRequest request) {
 
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
         err.setStatus(HttpStatus.CONFLICT.value());
-        err.setError("Chave duplicada encontrada!");
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+    }
+
+    @ExceptionHandler(IntervaloEntreDosesException.class)
+    public ResponseEntity<StandardError> IntervaloEntreDosesException(IntervaloEntreDosesException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError();
+        err.setDataHora(Instant.now());
+        err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        err.setMensagem(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
 
 
