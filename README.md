@@ -12,9 +12,13 @@ no 2º semestre de 2023.
 API 1 deve gerenciar Vacinas, sendo que uma vacina deve ter:
 
 • Fabricante
+
 • Lote
+
 • Data de Validade
+
 • Número de doses
+
 • Intervalo mínimo entre doses em dias
 
 ## Índice de Conteúdo
