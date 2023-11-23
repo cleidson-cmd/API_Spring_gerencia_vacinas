@@ -20,14 +20,14 @@ public class VacinaService {
         return vacinaRepository.findAll();
     }
 
-    public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) {
+    public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) throws Exception {
         //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
         Map<String, Vacina> response = new HashMap();
         Date dataAtual = new Date();
         if (vacina.getValidade().after(dataAtual)) {
             if (vacina.getDoses() > 1) {
                 if (vacina.getIntervaloEntreDoses() < 1) {
-                    return ResponseEntity.unprocessableEntity().body(null);//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+                    throw new Exception("Atenção! Intervalo entre dose é obrigatório!.");//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
                 } else {
                     vacinaRepository.insert(vacina);
                 }

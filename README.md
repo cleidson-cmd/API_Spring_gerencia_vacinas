@@ -50,8 +50,8 @@ A API fornece os seguintes endpoints:
 ```markdown
 GET /api/vacinas - Listar todos os vacinas.
 
-POST /api/pacientes - cadastra uma vacina. (ATENNÇÃO! Se a vacina não for dose única, o intervaloEntreDoses deve ser
-maior que 0)
+POST /api/pacientes - cadastra uma vacina.
+(ATENNÇÃO! Se a vacina não for dose única, o intervaloEntreDoses deve ser maior que 0)
 Exemplo do corpo:
 {
 "nome": "VACINA",
