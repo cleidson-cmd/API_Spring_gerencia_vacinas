@@ -25,19 +25,16 @@ public class VacinaService {
         return vacinaRepository.findAll();
     }
 
-    public List<String> listarNomesVacinas() {
-        List<Vacina> vacinas = listarTodosNomesVacinas();
-        // Extrair os nomes das vacinas para uma lista de strings
-        return vacinas.stream().map(Vacina::getNome).toList();
-    }
+    public List<Vacina> buscarPorNomeIgnoringCaseAndSpaces(String nome) {
+        // Remova espaços em branco extras e converta para uma expressão regular
+        String regexNome = nome.trim().replaceAll("\\s+", ".*");
 
-    public List<Vacina> buscarVacinasPeloNome(String nome) {
-        return vacinaRepository.findByNomeRegexIgnoreCase(nome);
+        return vacinaRepository.findByNomeIgnoringCaseAndSpaces(regexNome);
     }
 
     public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) throws Exception {
         String nomeNormalizado = vacina.getNome().trim().toLowerCase(); // Remove espaços extras e transforma em minúsculas
-        List vacinaExistente = vacinaRepository.findByNomeRegexIgnoreCase(nomeNormalizado);
+        List vacinaExistente = vacinaRepository.findByNomeIgnoringCaseAndSpaces(nomeNormalizado);
         //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
         Map<String, Vacina> response = new HashMap();
         Date dataAtual = new Date();
