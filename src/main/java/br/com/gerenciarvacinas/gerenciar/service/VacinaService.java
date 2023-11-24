@@ -2,7 +2,8 @@ package br.com.gerenciarvacinas.gerenciar.service;
 
 import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
-import br.com.gerenciarvacinas.gerenciar.service.exceptions.*;
+import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
+import br.com.gerenciarvacinas.gerenciar.service.exceptions.IntervaloEntreDosesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,28 @@ public class VacinaService {
         return vacinaRepository.findAll();
     }
 
+    public List<Vacina> listarTodosNomesVacinas() {
+        return vacinaRepository.findAll();
+    }
+
+    public List<String> listarNomesVacinas() {
+        List<Vacina> vacinas = listarTodosNomesVacinas();
+        // Extrair os nomes das vacinas para uma lista de strings
+        return vacinas.stream().map(Vacina::getNome).toList();
+    }
+
+    public List<Vacina> buscarVacinasPeloNome(String nome) {
+        return vacinaRepository.findByNomeRegexIgnoreCase(nome);
+    }
+
     public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) throws Exception {
-        Vacina vacinaExistente = vacinaRepository.findByNome(vacina.getNome());
+        String nomeNormalizado = vacina.getNome().trim().toLowerCase(); // Remove espaços extras e transforma em minúsculas
+        List vacinaExistente = vacinaRepository.findByNomeRegexIgnoreCase(nomeNormalizado);
         //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
         Map<String, Vacina> response = new HashMap();
         Date dataAtual = new Date();
-        if (vacinaExistente == null) {
+
+        if (vacinaExistente.isEmpty()) {
             if (vacina.getValidade().after(dataAtual)) {
                 if (vacina.getDoses() > 1) {
                     if (vacina.getIntervaloEntreDoses() < 1) {
@@ -39,7 +56,7 @@ public class VacinaService {
                 return ResponseEntity.created(null).body(response);
             }
         } else {
-            throw new VacinaExistenteException("ATENÇÃO!: O Nome de Vacina informado já encontra-se cadastrado em nosso sistema");
+            throw new IntervaloEntreDosesException("ATENÇÃO!: O Nome de Vacina informado já encontra-se cadastrado em nosso sistema");
         }
         return ResponseEntity.unprocessableEntity().body(response);
     }

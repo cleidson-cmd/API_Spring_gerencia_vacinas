@@ -31,7 +31,23 @@ public class VacinaController {
         return ResponseEntity.ok().body(vacina.get());
     }
 
-    @PostMapping()
+    /*@GetMapping("/nome/{nome}")
+    public List<Vacina> findByNomeRegexIgnoreCase(@PathVariable String nome) {
+        List<Vacina> vacina = vacinaService.findByNomeRegexIgnoreCase(nome);
+
+        if (vacina.isEmpty()) {
+            return (List<Vacina>) ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().body(vacina).getBody();
+    }*/
+
+    @GetMapping("/buscar")
+    public List<Vacina> buscarVacinasPeloNome(@RequestParam String nome) {
+        return vacinaService.buscarVacinasPeloNome(nome);
+    }
+
+    @PostMapping
     public ResponseEntity<Vacina> inserir(@RequestBody @Valid Vacina vacina) throws Exception {
         if (vacinaService.inserir(vacina) == null) {
             return ResponseEntity.badRequest().body(vacina);

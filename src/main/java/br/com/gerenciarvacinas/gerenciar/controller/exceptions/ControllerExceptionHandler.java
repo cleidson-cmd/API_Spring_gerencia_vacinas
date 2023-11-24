@@ -1,12 +1,12 @@
 package br.com.gerenciarvacinas.gerenciar.controller.exceptions;
 
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.*;
-import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,25 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @Value("${server.error.include-exception}")
     private boolean printStackTrace;
 
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<Object> handleDuplicateKeyException(DuplicateKeyException exception, WebRequest request) {
+        String errorMessage = "ATENÇÃO!: O Nome de Vacina informado já encontra-se cadastrado em nosso sistema.";
+        log.error(errorMessage, exception);
+        return buildErrorResponse(exception, errorMessage, HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
+
+    @ExceptionHandler(VacinaExistenteException.class)
+    public ResponseEntity<StandardError> VacinaExistenteException(VacinaExistenteException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError();
+        err.setDataHora(Instant.now());
+        err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        err.setMensagem(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException methodArgumentNotValidException, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação. Verifique o campo 'erros' para obter detalhes..");
         for (FieldError fieldError : methodArgumentNotValidException.getBindingResult().getFieldErrors()) {
@@ -150,17 +168,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
-    }
-
-    @ExceptionHandler(VacinaExistenteException.class)
-    public ResponseEntity<StandardError> VacinaExistenteException(VacinaExistenteException e, HttpServletRequest request) {
-
-        StandardError err = new StandardError();
-        err.setDataHora(Instant.now());
-        err.setStatus(HttpStatus.CONFLICT.value());
-        err.setMensagem(e.getMessage());
-        err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     private ResponseEntity<Object> buildErrorResponse(Exception exception, HttpStatus httpStatus, WebRequest request) {

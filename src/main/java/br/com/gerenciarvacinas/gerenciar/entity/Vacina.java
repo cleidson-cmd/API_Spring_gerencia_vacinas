@@ -23,13 +23,16 @@ public class Vacina {
 
     @NotBlank(message = "O nome da vacina não foi informado!")
     @Indexed(unique = true) // Define a restrição de campo único
+    @NotNull
     private String nome;
 
     @NotBlank(message = "O nome do fabricante não foi informado!")
+    @NotNull
     private String fabricante;
 
     @NotBlank(message = "O lote da vacina não foi informado!")
     @Min(value = 1, message = "Informe um número maior que 0!")
+    @NotNull
     private String lote;
 
     @NotNull
