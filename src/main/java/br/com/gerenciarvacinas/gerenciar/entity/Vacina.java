@@ -16,8 +16,6 @@ import java.util.Date;
 @AllArgsConstructor //cria construtor com todos argumentos
 @NoArgsConstructor //cria construtor sem argumentos
 @Document(collection = "Vacinas")
-//Expressão em JavaScript que será executada durante a validação
-//@ScriptAssert(lang = "javascript", script = "_this.validade.isAfter(LocalDateTime.now())", message = "A data de validade deve ser futura")
 public class Vacina {
     @Id
     private String id;

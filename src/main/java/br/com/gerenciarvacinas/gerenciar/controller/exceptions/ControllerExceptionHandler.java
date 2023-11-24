@@ -1,8 +1,6 @@
 package br.com.gerenciarvacinas.gerenciar.controller.exceptions;
 
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.*;
-import com.mongodb.DuplicateKeyException;
-import com.mongodb.MongoWriteException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -130,39 +127,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(dataBindingViolationException, HttpStatus.CONFLICT, request);
     }
 
-
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<StandardError> MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
 
         StandardError err = new StandardError();
         err.setDataHora(Instant.now());
-        err.setStatus(HttpStatus.CONFLICT.value());;
-        err.setMensagem(e.getMessage());
-        err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
-
-    }
-
-    @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<StandardError> DuplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
-
-        StandardError err = new StandardError();
-        err.setDataHora(Instant.now());
         err.setStatus(HttpStatus.CONFLICT.value());
+        ;
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
-    }
 
-    @ExceptionHandler(MongoWriteException.class)
-    public ResponseEntity<StandardError> MongoWriteException(MongoWriteException e, HttpServletRequest request) {
-
-        StandardError err = new StandardError();
-        err.setDataHora(Instant.now());
-        err.setStatus(HttpStatus.CONFLICT.value());
-        err.setMensagem(e.getMessage());
-        err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     @ExceptionHandler(IntervaloEntreDosesException.class)
@@ -175,7 +150,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
-
 
     private ResponseEntity<Object> buildErrorResponse(Exception exception, HttpStatus httpStatus, WebRequest request) {
         return buildErrorResponse(exception, exception.getMessage(), httpStatus, request);
