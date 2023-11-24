@@ -2,8 +2,7 @@ package br.com.gerenciarvacinas.gerenciar.service;
 
 import br.com.gerenciarvacinas.gerenciar.entity.Vacina;
 import br.com.gerenciarvacinas.gerenciar.repository.VacinaRepository;
-import br.com.gerenciarvacinas.gerenciar.service.exceptions.EntityNotFoundException;
-import br.com.gerenciarvacinas.gerenciar.service.exceptions.IntervaloEntreDosesException;
+import br.com.gerenciarvacinas.gerenciar.service.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,20 +21,25 @@ public class VacinaService {
     }
 
     public ResponseEntity<Map<String, Vacina>> inserir(Vacina vacina) throws Exception {
+        Vacina vacinaExistente = vacinaRepository.findByNome(vacina.getNome());
         //caso a vacina não seja doze unica o intervalo entre doze é obrigatório.
         Map<String, Vacina> response = new HashMap();
         Date dataAtual = new Date();
-        if (vacina.getValidade().after(dataAtual)) {
-            if (vacina.getDoses() > 1) {
-                if (vacina.getIntervaloEntreDoses() < 1) {
-                    throw new IntervaloEntreDosesException("ATENÇÃO!: Intervalo entre doses obrigatório para vacinas que não sejam de dose única");//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+        if (vacinaExistente == null) {
+            if (vacina.getValidade().after(dataAtual)) {
+                if (vacina.getDoses() > 1) {
+                    if (vacina.getIntervaloEntreDoses() < 1) {
+                        throw new IntervaloEntreDosesException("ATENÇÃO!: Intervalo entre doses obrigatório para vacinas que não sejam de dose única");//aqui retorna obrigatoriedade do intervalo entre vacinas ja que não é doze unica
+                    } else {
+                        vacinaRepository.insert(vacina);
+                    }
                 } else {
                     vacinaRepository.insert(vacina);
                 }
-            } else {
-                vacinaRepository.insert(vacina);
+                return ResponseEntity.created(null).body(response);
             }
-            return ResponseEntity.created(null).body(response);
+        } else {
+            throw new VacinaExistenteException("ATENÇÃO!: O Nome de Vacina informado já encontra-se cadastrado em nosso sistema");
         }
         return ResponseEntity.unprocessableEntity().body(response);
     }

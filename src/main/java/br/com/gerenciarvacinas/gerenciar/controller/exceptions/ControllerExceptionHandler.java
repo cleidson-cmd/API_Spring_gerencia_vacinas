@@ -1,6 +1,7 @@
 package br.com.gerenciarvacinas.gerenciar.controller.exceptions;
 
 import br.com.gerenciarvacinas.gerenciar.service.exceptions.*;
+import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -149,6 +150,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         err.setMensagem(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+    }
+
+    @ExceptionHandler(VacinaExistenteException.class)
+    public ResponseEntity<StandardError> VacinaExistenteException(VacinaExistenteException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError();
+        err.setDataHora(Instant.now());
+        err.setStatus(HttpStatus.CONFLICT.value());
+        err.setMensagem(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     private ResponseEntity<Object> buildErrorResponse(Exception exception, HttpStatus httpStatus, WebRequest request) {

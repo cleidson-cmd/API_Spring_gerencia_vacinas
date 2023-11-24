@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Future;
@@ -21,6 +22,7 @@ public class Vacina {
     private String id;
 
     @NotBlank(message = "O nome da vacina não foi informado!")
+    @Indexed(unique = true) // Define a restrição de campo único
     private String nome;
 
     @NotBlank(message = "O nome do fabricante não foi informado!")

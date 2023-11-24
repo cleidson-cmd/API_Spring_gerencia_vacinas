@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface VacinaRepository extends MongoRepository<Vacina, String> {
     public Optional<Vacina> findById(String id);
+
+    Vacina findByNome(String nome);
 }
